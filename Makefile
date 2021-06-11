@@ -5,7 +5,7 @@ BONUS = bonus
 CC = gcc
 FLAGS = -Werror -Wextra -Wall
 
-SRC_CLIENT = client.c
+SRC_CLIENT = client.c utils.c
 SRC_SERVER = server.c
 
 all : $(CLIENT) $(SERVER)
