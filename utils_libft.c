@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_libft.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bsanaoui <bsanaoui@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/12 17:20:19 by bsanaoui          #+#    #+#             */
+/*   Updated: 2021/06/12 17:51:40 by bsanaoui         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
 void	put_string(char *s)
@@ -5,7 +17,7 @@ void	put_string(char *s)
 	write(1, s, ft_strlen(s));
 }
 
-int		ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
 	long			res;
 	long			sign;
@@ -14,8 +26,8 @@ int		ft_atoi(const char *str)
 	res = 0;
 	sign = 1;
 	i = 0;
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' ||
-			str[i] == '\r' || str[i] == '\v' || str[i] == '\f')
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
+		|| str[i] == '\r' || str[i] == '\v' || str[i] == '\f')
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{

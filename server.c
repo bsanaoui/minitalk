@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bsanaoui <bsanaoui@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/12 17:16:47 by bsanaoui          #+#    #+#             */
+/*   Updated: 2021/06/12 17:17:09 by bsanaoui         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
-static void	byte_to_char(int sig)
+static void	handle_signal(int sig)
 {
-	static int	n_bits = 0;
-	static char	c = 0;
-	static char tmp_bit = 1;
+	static int				n_bits = 0;
+	static unsigned char	c = 0;
+	static unsigned char	tmp_bit = 1;
 
-	if (sig == 1)
+	if (sig == SIGUSR1)
 		c = c | tmp_bit;
 	tmp_bit = tmp_bit << 1;
 	n_bits++;
@@ -19,21 +31,11 @@ static void	byte_to_char(int sig)
 	}
 }
 
-static void	handle_signal(int sig)
-{
-	if (sig == SIGUSR1) {
-		byte_to_char(1);
-	}
-	else
-		byte_to_char(0);
-}
-
-int	main()
+int	main(void)
 {
 	pid_t	pid;
 
 	pid = getpid();
-
 	signal(SIGUSR1, handle_signal);
 	signal(SIGUSR2, handle_signal);
 	if (pid == -1)
@@ -43,6 +45,5 @@ int	main()
 	put_string("\n");
 	while (1)
 		pause();
-
 	return (0);
 }
