@@ -2,26 +2,35 @@
 NAME = minitalk
 CLIENT = client
 SERVER = server
+CLIENT_BONUS = client_bonus
+SERVER_BONUS = server_bonus
 BONUS = bonus
 CC = gcc
 FLAGS = -Werror -Wextra -Wall
 
-SRC_CLIENT = client.c utils.c utils_libft.c ft_itoa.c
-SRC_SERVER = server.c utils.c utils_libft.c
+SRC= utils.c utils_libft.c
+SRC_BONUS= bonus_minitalk/utils_bonus.c bonus_minitalk/utils_libft_bonus.c bonus_minitalk/ft_itoa_bonus.c
 
 all : $(NAME)
 
 $(NAME): $(CLIENT) $(SERVER)
 
 $(CLIENT):
-	@$(CC) $(SRC_CLIENT) -I $(FLAGS) -o $(CLIENT)
+	@$(CC) client.c  $(SRC) -I $(FLAGS) -o $(CLIENT)
 
 $(SERVER):
-	@$(CC) $(SRC_SERVER) -I $(FLAGS) -o $(SERVER)
+	@$(CC) server.c $(SRC) -I $(FLAGS) -o $(SERVER)
 
+$(CLIENT_BONUS):
+	@$(CC) bonus_minitalk/client_bonus.c  $(SRC_BONUS) -I $(FLAGS) -o $(CLIENT_BONUS)
+
+$(SERVER_BONUS):
+	@$(CC) bonus_minitalk/server_bonus.c $(SRC_BONUS) -I $(FLAGS) -o $(SERVER_BONUS)
+
+$(BONUS): $(CLIENT_BONUS) $(SERVER_BONUS)
 
 fclean: clean
-	@rm -f $(CLIENT) $(SERVER) $(BONUS)
+	@rm -f $(CLIENT) $(SERVER) $(CLIENT_BONUS) $(SERVER_BONUS)
 
 clean:
 	@rm -f *.o

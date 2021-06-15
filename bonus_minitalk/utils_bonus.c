@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsanaoui <bsanaoui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/12 17:18:39 by bsanaoui          #+#    #+#             */
-/*   Updated: 2021/06/13 13:39:46 by bsanaoui         ###   ########.fr       */
+/*   Created: 2021/06/12 17:49:40 by bsanaoui          #+#    #+#             */
+/*   Updated: 2021/06/15 17:09:24 by bsanaoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "minitalk_bonus.h"
 
-static void	char_to_binary(int c, int pid_server)
+void	char_to_binary(int c, int pid)
 {
 	int		i;
 	int		bit;
@@ -22,32 +22,46 @@ static void	char_to_binary(int c, int pid_server)
 	{
 		bit = c & 1;
 		if (bit == 1)
-			kill(pid_server, SIGUSR1);
+			kill(pid, SIGUSR1);
 		else
-			kill(pid_server, SIGUSR2);
+			kill(pid, SIGUSR2);
 		usleep(90);
 		c = c >> 1;
 		i--;
 	}
 }
 
-static void	send_signals(char *s, int pid_server)
+void	send_signals(char *s, int pid)
 {
 	int	i;
 
 	i = -1;
 	while (s[++i])
-		char_to_binary(s[i], pid_server);
+		char_to_binary(s[i], pid);
+	char_to_binary(0, pid);
 }
 
-int	main(int argc, char *argv[])
+void	is_valid_pid(char *s)
 {
-	int	pid_server;
+	int	i;
 
-	if (argc != 3)
-		ft_perror("Not Valid Arguments\n");
-	is_valid_pid(argv[1]);
-	pid_server = ft_atoi(argv[1]);
-	send_signals(argv[2], pid_server);
+	i = -1;
+	if (s[0] == '-' || s[0] == '+')
+	{
+		ft_perror("Not A valid PID\n");
+		i++;
+	}
+	while (s[++i])
+	{
+		if ((s[i] < 48 || s[i] > 57))
+			ft_perror("Not A valid PID\n");
+	}
+}
+
+int	ft_perror(const char *s)
+{
+	write(1, "Error\n", 7);
+	write(1, s, ft_strlen(s));
+	exit(EXIT_FAILURE);
 	return (0);
 }
